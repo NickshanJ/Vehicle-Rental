@@ -24,19 +24,20 @@ const Login = () => {
       // Debugging: Log the user object to ensure it contains isAdmin
       console.log("User Object at Login:", user);
 
-      if (user && user.isAdmin !== undefined) { 
+      if (user && user.isAdmin !== undefined) {
         localStorage.setItem('token', response.data.token);
-        localStorage.setItem('user', JSON.stringify(user)); 
+        localStorage.setItem('user', JSON.stringify(user));
 
         setAuth({ isAuthenticated: true, user: user });
         setMessage('Login successful');
-        
+
         navigate('/');
       } else {
         console.error('User object does not contain isAdmin flag');
       }
     } catch (error) {
-      setMessage(error.response.data.message || 'Login failed');
+      console.log('Error Response:', error.response); // Log the entire error response
+      setMessage(error.response ? error.response.data.message : 'Login failed');
     }
   };
 
