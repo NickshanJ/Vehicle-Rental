@@ -51,7 +51,7 @@ const VehicleDetails = () => {
   }
 
   if (!vehicle) {
-    return <p className='flex items-center justify-center h-screen text-center font-bold animate-bounce'>Loading...</p>;
+    return <p className='flex items-center justify-center h-screen text-center text-orange-500 font-bold animate-bounce'>Loading...</p>;
   }
 
   return (

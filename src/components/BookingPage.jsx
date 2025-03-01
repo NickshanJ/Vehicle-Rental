@@ -105,7 +105,7 @@ const BookingPage = () => {
   if (!vehicle) {
     return (
       <div className="flex justify-center items-center h-screen">
-        <p>Loading vehicle details...</p>
+        <p className='flex items-center justify-center h-screen text-center text-orange-500 font-bold animate-bounce'>Loading vehicle details...</p>
       </div>
     );
   }

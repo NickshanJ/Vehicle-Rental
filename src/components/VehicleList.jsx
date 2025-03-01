@@ -37,7 +37,7 @@ const VehicleList = () => {
         <h2 className="text-3xl font-bold">Vehicle List</h2>
         {/* Back to Home Button */}
         <button
-          className="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600"
+          className="bg-orange-500 text-white font-bold px-4 py-2 rounded hover:bg-orange-600"
           onClick={handleBackToHome}
         >
           Back to Home
@@ -67,7 +67,7 @@ const VehicleList = () => {
           ))}
         </div>
       ) : (
-        <p className="text-gray-600 text-center">
+        <p className="flex items-center justify-center h-screen text-center text-orange-500 font-bold animate-bounce">
           No vehicles found. Please check back later!
         </p>
       )}
