@@ -90,7 +90,7 @@ const Profile = () => {
   };
 
   if (!profile) {
-    return <div className="text-center mt-20">Loading...</div>;
+    return <div className="flex items-center justify-center h-screen text-center text-orange-500 font-bold animate-bounce">Loading...</div>;
   }
 
   return (

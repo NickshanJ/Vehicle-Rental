@@ -78,13 +78,13 @@ const ReviewPage = () => {
             />
             <button
               type="submit"
-              className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+              className="bg-blue-500 text-white font-bold px-4 py-2 rounded hover:bg-blue-600"
             >
               Submit Review
             </button>
           </form>
           <button
-            className="mt-4 bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600"
+            className="mt-4 bg-orange-500 text-white font-bold px-4 py-2 rounded hover:bg-orange-600"
             onClick={() => navigate(-1)} 
           >
             Back

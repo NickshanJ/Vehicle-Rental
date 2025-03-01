@@ -124,10 +124,10 @@ const BookingPage = () => {
       <div className="flex flex-col lg:flex-row lg:items-start bg-white p-6 rounded-lg shadow-md">
         {/* Left Side: Booking Form and Details */}
         <div className="lg:w-1/2 lg:mr-6">
-          <p className="text-gray-600 mb-2">Price per day: ₹{vehicle.pricePerDay}</p>
-          <p className="text-gray-600 mb-6">{vehicle.description}</p>
+          <p className="text-gray-600 font-bold mb-2">Price per day: ₹{vehicle.pricePerDay}</p>
+          <p className="text-gray-600 font-bold mb-6">{vehicle.description}</p>
           <div className="mb-4">
-            <label className="block text-gray-700 mb-2">Start Date:</label>
+            <label className="block text-gray-700 font-bold mb-2">Start Date:</label>
             <DatePicker
               selected={startDate}
               onChange={(date) => setStartDate(date)}
@@ -139,7 +139,7 @@ const BookingPage = () => {
             />
           </div>
           <div className="mb-4">
-            <label className="block text-gray-700 mb-2">End Date:</label>
+            <label className="block text-gray-700 font-bold mb-2">End Date:</label>
             <DatePicker
               selected={endDate}
               onChange={(date) => setEndDate(date)}
