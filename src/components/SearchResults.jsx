@@ -8,11 +8,11 @@ const SearchResults = () => {
 
   const handleClick = (id) => {
     sessionStorage.setItem('scrollPosition', window.scrollY);
-    navigate(`/vehicles/${id}`); // Navigate to vehicle details
+    navigate(`/vehicles/${id}`);
   };
 
   const handleBackToHome = () => {
-    navigate('/'); // Navigate back to the home page
+    navigate('/'); 
   };
 
   return (
@@ -21,8 +21,8 @@ const SearchResults = () => {
         <h2 className="text-3xl font-bold">Search Results</h2>
         {/* Back to Home Button */}
         <button
-          className="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600"
-          onClick={handleBackToHome} // Back to Home handler
+          className="bg-orange-500 font-bold text-white px-4 py-2 rounded hover:bg-orange-600"
+          onClick={handleBackToHome} 
         >
           Back to Home
         </button>

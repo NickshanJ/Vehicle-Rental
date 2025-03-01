@@ -32,7 +32,7 @@ const SupportPage = () => {
         <h1 className="text-4xl font-bold text-orange-500">Support Center</h1>
         {/* Back Button */}
         <button
-          className="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600"
+          className="bg-orange-500 text-white font-bold px-4 py-2 rounded hover:bg-orange-600"
           onClick={handleBack}
         >
           Back
@@ -83,7 +83,7 @@ const SupportPage = () => {
             />
             <button
               type="submit"
-              className="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600"
+              className="bg-orange-500 text-white font-bold px-4 py-2 rounded hover:bg-orange-600"
             >
               Submit Query
             </button>

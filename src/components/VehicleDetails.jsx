@@ -51,7 +51,7 @@ const VehicleDetails = () => {
   }
 
   if (!vehicle) {
-    return <p>Loading...</p>;
+    return <p className='flex items-center justify-center h-screen text-center font-bold animate-bounce'>Loading...</p>;
   }
 
   return (
@@ -66,7 +66,7 @@ const VehicleDetails = () => {
           <div className="flex items-center justify-between">
             <h2 className="text-3xl font-bold mb-4">{vehicle.model}</h2>
             <button
-              className="mb-4 bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600"
+              className="mb-4 bg-orange-500 text-white font-bold px-4 py-2 rounded hover:bg-orange-600"
               onClick={handleBackClick}
             >
               Back
@@ -84,13 +84,13 @@ const VehicleDetails = () => {
           <p className="text-gray-700 mb-2">Availability: {vehicle.availability ? 'Available' : 'Not Available'}</p>
           <div className="flex space-x-4">
             <button
-              className="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600"
+              className="bg-orange-500 text-white font-bold px-4 py-2 rounded hover:bg-orange-600"
               onClick={handleBookNow}
             >
               Book Now
             </button>
             <button
-              className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+              className="bg-blue-500 text-white font-bold px-4 py-2 rounded hover:bg-blue-600"
               onClick={handleReviewClick}
             >
               Review

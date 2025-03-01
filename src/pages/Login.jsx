@@ -47,7 +47,7 @@ const Login = () => {
         <h2 className="text-2xl font-bold mb-4">Login</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label className="block text-gray-700">Username:</label>
+            <label className="block font-bold text-gray-700">Username:</label>
             <input
               type="text"
               value={username}
@@ -57,7 +57,7 @@ const Login = () => {
             />
           </div>
           <div className="mb-4">
-            <label className="block text-gray-700">Password:</label>
+            <label className="block font-bold text-gray-700">Password:</label>
             <input
               type="password"
               value={password}
@@ -67,11 +67,11 @@ const Login = () => {
             />
           </div>
           <div className="mb-4 text-right">
-            <Link to="/forgot-password" className="text-blue-500">Forgot your password?</Link>
+            <Link to="/forgot-password" className="text-blue-500 font-bold">Forgot your password?</Link>
           </div>
           <button
             type="submit"
-            className="w-full bg-red-500 text-white p-2 rounded hover:bg-red-600"
+            className="w-full bg-red-500 text-white font-bold p-2 rounded hover:bg-red-600"
           >
             LOGIN
           </button>

@@ -25,7 +25,7 @@ const Register = () => {
         <h2 className="text-2xl font-bold mb-4">Register</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label className="block text-gray-700">Username:</label>
+            <label className="block font-bold text-gray-700">Username:</label>
             <input
               type="text"
               value={username}
@@ -35,7 +35,7 @@ const Register = () => {
             />
           </div>
           <div className="mb-4">
-            <label className="block text-gray-700">Email:</label>
+            <label className="block font-bold text-gray-700">Email:</label>
             <input
               type="email"
               value={email}
@@ -45,7 +45,7 @@ const Register = () => {
             />
           </div>
           <div className="mb-4">
-            <label className="block text-gray-700">Password:</label>
+            <label className="block font-bold text-gray-700">Password:</label>
             <input
               type="password"
               value={password}
@@ -56,7 +56,7 @@ const Register = () => {
           </div>
           <button
             type="submit"
-            className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
+            className="w-full bg-blue-500 text-white font-bold p-2 rounded hover:bg-blue-600"
           >
             REGISTER
           </button>

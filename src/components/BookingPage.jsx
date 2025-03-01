@@ -115,7 +115,7 @@ const BookingPage = () => {
       <div className='flex items-center justify-between'>
       <h2 className="text-3xl font-bold mb-8">Book {vehicle.model}</h2>
       <button
-        className="mb-6 bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600"
+        className="mb-6 bg-orange-500 text-white font-bold px-4 py-2 rounded hover:bg-orange-600"
         onClick={() => navigate(-1)}
       >
         Back
@@ -153,7 +153,7 @@ const BookingPage = () => {
           </div>
           <p className="text-gray-800 font-bold mb-4">Total Price: ₹{totalPrice}</p>
           <button
-            className={`bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 ${
+            className={`bg-orange-500 text-white font-bold px-4 py-2 rounded hover:bg-orange-600 ${
               !startDate || !endDate ? 'opacity-50 cursor-not-allowed' : ''
             }`}
             onClick={handleBookNow}

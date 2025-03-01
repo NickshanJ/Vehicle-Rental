@@ -31,8 +31,8 @@ const Profile = () => {
 
         if (response.data) {
           setProfile(response.data.profile);
-          setBookings(response.data.profile.bookings); // Fetching bookings from profile data
-          setReviews(response.data.profile.reviews); // Fetching reviews from profile data
+          setBookings(response.data.profile.bookings); 
+          setReviews(response.data.profile.reviews);
 
           if (response.data.profile.imageUrl) {
             setImageUrl(`https://vehicle-rental-server.onrender.com/${response.data.profile.imageUrl}`);
@@ -97,7 +97,7 @@ const Profile = () => {
     <div className="container mx-auto p-4 relative">
       {/* Back Button */}
       <button
-        className="absolute top-4 right-4 bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600"
+        className="absolute top-4 right-4 bg-orange-500 text-white font-bold px-4 py-2 rounded hover:bg-orange-600"
         onClick={handleBack}
       >
         Back
@@ -144,7 +144,7 @@ const Profile = () => {
                 />
               </div>
               <div className="text-right">
-                <button type="submit" className="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600">Update Profile</button>
+                <button type="submit" className="bg-orange-500 text-white font-bold px-4 py-2 rounded hover:bg-orange-600">Update Profile</button>
               </div>
             </form>
             {message && <p className="mt-4 text-green-600">{message}</p>}

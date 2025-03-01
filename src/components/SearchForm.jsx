@@ -45,33 +45,33 @@ const SearchForm = () => {
           value={vehicleType}
           onChange={(e) => setVehicleType(e.target.value)}
         >
-          <option value="">All Types</option>
-          <option value="Scooter">Scooter</option>
-          <option value="Bike">Bike</option>
-          <option value="Manual">Manual</option>
-          <option value="Automatic">Automatic</option>
+          <option className='font-bold' value="">All Types</option>
+          <option className='font-bold' value="Scooter">Scooter</option>
+          <option className='font-bold' value="Bike">Bike</option>
+          <option className='font-bold' value="Manual">Manual</option>
+          <option className='font-bold' value="Automatic">Automatic</option>
         </select>
         <select
           className="p-3 border rounded-[100px] bg-gray-50 focus:outline-none focus:ring focus:ring-orange-500"
           value={location}
           onChange={(e) => setLocation(e.target.value)}
         >
-          <option value="">All Locations</option>
-          <option value="Velachery">Velachery</option>
-          <option value="Guindy">Guindy</option>
-          <option value="OMR">OMR</option>
-          <option value="Medavakkam">Medavakkam</option>
-          <option value="Tambaram">Tambaram</option>
+          <option className='font-bold' value="">All Locations</option>
+          <option className='font-bold' value="Velachery">Velachery</option>
+          <option className='font-bold' value="Guindy">Guindy</option>
+          <option className='font-bold' value="OMR">OMR</option>
+          <option className='font-bold' value="Medavakkam">Medavakkam</option>
+          <option className='font-bold' value="Tambaram">Tambaram</option>
         </select>
         <select
           className="p-3 border rounded-[100px] bg-gray-50 focus:outline-none focus:ring focus:ring-orange-500"
           value={priceRange}
           onChange={(e) => setPriceRange(e.target.value)}
         >
-          <option value="">All Price Ranges</option>
-          <option value="low">Low</option>
-          <option value="medium">Medium</option>
-          <option value="high">High</option>
+          <option className='font-bold' value="">All Price Ranges</option>
+          <option className='font-bold' value="low">Low</option>
+          <option className='font-bold' value="medium">Medium</option>
+          <option className='font-bold' value="high">High</option>
         </select>
         <button
           className="bg-orange-600 text-white font-bold px-6 py-3 rounded-[100px] hover:bg-orange-700 transition duration-200 focus:ring focus:ring-orange-500"
