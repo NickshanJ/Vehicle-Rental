@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const VehicleList = () => {
-  const [vehicles, setVehicles] = useState([]); 
-  const [error, setError] = useState(null); 
+  const [vehicles, setVehicles] = useState([]);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -18,7 +18,7 @@ const VehicleList = () => {
       }
     };
 
-    fetchVehicles(); 
+    fetchVehicles();
   }, []);
 
   // Function to handle navigation to VehicleDetails
@@ -28,7 +28,7 @@ const VehicleList = () => {
 
   // Function to navigate back to Home
   const handleBackToHome = () => {
-    navigate('/'); 
+    navigate('/');
   };
 
   return (
@@ -49,21 +49,21 @@ const VehicleList = () => {
       ) : vehicles.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-6">
           {vehicles.map((vehicle) => (
-            <button
+            <div
               key={vehicle._id}
-              className="bg-white p-6 rounded-lg shadow-md text-left w-full transition transform hover:scale-105 hover:shadow-lg"
-              onClick={() => handleClick(vehicle._id)} 
+              className="bg-white p-6 rounded-lg shadow-md text-left w-full transition transform hover:scale-105 hover:shadow-lg cursor-pointer"
+              onClick={() => handleClick(vehicle._id)}
             >
               <img
-                src={vehicle.images[0]} 
+                src={vehicle.images[0]}
                 alt={vehicle.model}
                 className="w-full h-48 object-cover rounded-md mb-4"
               />
               <h3 className="text-xl font-semibold mb-2">{vehicle.model}</h3>
               <p className="text-gray-700">
-                 Rs. {vehicle.pricePerDay.toLocaleString()} /day
+                Rs. {vehicle.pricePerDay.toLocaleString()} /day
               </p>
-            </button>
+            </div>
           ))}
         </div>
       ) : (
