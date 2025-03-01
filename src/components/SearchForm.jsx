@@ -74,7 +74,7 @@ const SearchForm = () => {
           <option value="high">High</option>
         </select>
         <button
-          className="bg-orange-600 text-white px-6 py-3 rounded-[100px] hover:bg-orange-700 transition duration-200 focus:ring focus:ring-orange-500"
+          className="bg-orange-600 text-white font-bold px-6 py-3 rounded-[100px] hover:bg-orange-700 transition duration-200 focus:ring focus:ring-orange-500"
           onClick={handleSearch}
         >
           Search
