@@ -76,7 +76,7 @@ Admin Capabilities:
 
 Admins can log in using their credentials to access the admin dashboard.
 
-Username : admin
+Username : admin /
 password : adminpassword
 
 2. User Management:
