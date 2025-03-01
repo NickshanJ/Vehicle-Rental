@@ -4,6 +4,8 @@ import axios from 'axios';
 const ManageUserAccounts = () => {
   const [users, setUsers] = useState([]); 
   const [selectedUser, setSelectedUser] = useState(null); 
+  const [loadingUsers, setLoadingUsers] = useState(true); // Add loading state for users
+  const [loadingUserDetails, setLoadingUserDetails] = useState(false); // Add loading state for user details
 
   // Fetch all user data when the component mounts
   useEffect(() => {
@@ -11,11 +13,13 @@ const ManageUserAccounts = () => {
       try {
         const token = localStorage.getItem('token'); 
         const response = await axios.get('https://vehicle-rental-server.onrender.com/api/admin/users', {
-          headers: { Authorization: `Bearer ${token}` }, // Add Authorization header
+          headers: { Authorization: `Bearer ${token}` }, 
         });
         setUsers(response.data);
       } catch (error) {
         console.error('Error fetching user data:', error);
+      } finally {
+        setLoadingUsers(false); 
       }
     };
 
@@ -24,14 +28,17 @@ const ManageUserAccounts = () => {
 
   // Fetch a user's details, including bookings, payments, and reviews
   const fetchUserDetails = async (userId) => {
+    setLoadingUserDetails(true); 
     try {
       const token = localStorage.getItem('token');
       const response = await axios.get(`https://vehicle-rental-server.onrender.com/api/admin/users/${userId}/details`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      setSelectedUser(response.data); 
+      setSelectedUser(response.data);
     } catch (error) {
       console.error('Error fetching user details:', error);
+    } finally {
+      setLoadingUserDetails(false);
     }
   };
 
@@ -40,22 +47,28 @@ const ManageUserAccounts = () => {
       <h2 className="text-xl font-bold mb-4">Manage User Accounts</h2>
 
       {/* List Users */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {users.map((user) => (
-          <div
-            key={user._id}
-            className="p-4 bg-white shadow rounded cursor-pointer hover:bg-blue-50"
-            onClick={() => fetchUserDetails(user._id)} 
-          >
-            <h3 className="font-bold text-lg">{user.username}</h3>
-            <p>Email: {user.email}</p>
-            <p className="text-sm text-gray-600">Admin: {user.isAdmin ? 'Yes' : 'No'}</p>
-          </div>
-        ))}
-      </div>
+      {loadingUsers ? (
+        <p className='text-center font-bold animate-bounce mt-10'>Loading users...</p>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {users.map((user) => (
+            <div
+              key={user._id}
+              className="p-4 bg-white shadow rounded cursor-pointer hover:bg-blue-50"
+              onClick={() => fetchUserDetails(user._id)} 
+            >
+              <h3 className="font-bold text-lg">{user.username}</h3>
+              <p>Email: {user.email}</p>
+              <p className="text-sm text-gray-600">Admin: {user.isAdmin ? 'Yes' : 'No'}</p>
+            </div>
+          ))}
+        </div>
+      )}
 
       {/* User Details Section */}
-      {selectedUser && (
+      {loadingUserDetails ? (
+        <p>Loading user details...</p>
+      ) : selectedUser && (
         <div className="mt-8">
           <h3 className="text-2xl font-bold mb-4">Details for {selectedUser.username}</h3>
 

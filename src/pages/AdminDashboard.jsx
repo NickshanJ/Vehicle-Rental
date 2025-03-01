@@ -1,8 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
+import CreateBookingForm from '../components/CreateBookingForm'; 
+import axios from 'axios';
 
 const AdminDashboard = () => {
   const navigate = useNavigate(); 
+  const [bookings, setBookings] = useState([]);
+
+  const createBooking = async (newBooking) => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await axios.post('https://vehicle-rental-server.onrender.com/api/bookings', newBooking, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setBookings([...bookings, response.data]);
+    } catch (error) {
+      console.error('Error creating booking:', error);
+    }
+  };
 
   // Handle back button click
   const handleBack = () => {
@@ -46,12 +61,6 @@ const AdminDashboard = () => {
             >
               User Support Inquiries
             </Link>
-            <Link
-              to="create-booking"
-              className="block py-2 px-4 rounded-lg font-bold hover:bg-white hover:text-orange-500 transition duration-300"
-            >
-              Create Booking
-            </Link>
           </nav>
         </div>
       </aside>
@@ -60,7 +69,7 @@ const AdminDashboard = () => {
       <main className="w-3/4 p-8">
         <div className="bg-white p-6 shadow-md rounded-lg relative">
           <button
-            className="absolute top-4 right-4 bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 transition duration-300"
+            className="absolute top-4 right-4 bg-orange-500 text-white px-4 py-2 font-bold rounded hover:bg-orange-600 transition duration-300"
             onClick={handleBack}
           >
             Back to Home

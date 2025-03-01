@@ -34,7 +34,7 @@ const MonitorTransactions = () => {
   }, []);
 
   if (loading) {
-    return <div className="text-center mt-10">Loading payments...</div>;
+    return <div className="text-center font-bold animate-bounce mt-10">Loading payments...</div>;
   }
 
   if (error) {

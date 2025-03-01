@@ -38,7 +38,7 @@ const ManageBookings = () => {
 
   // Display loading state
   if (loading) {
-    return <div className="text-center mt-10">Loading bookings...</div>;
+    return <div className="text-center font-bold animate-bounce mt-10">Loading bookings...</div>;
   }
 
   // Display error message if there's an error

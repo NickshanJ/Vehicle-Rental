@@ -60,7 +60,7 @@ const UserSupportInquiries = () => {
   };
 
   if (loading) {
-    return <div className="text-center mt-10">Loading queries...</div>;
+    return <div className="text-center font-bold animate-bounce mt-10">Loading queries...</div>;
   }
 
   if (error) {
@@ -87,7 +87,7 @@ const UserSupportInquiries = () => {
                 />
                 <button
                   type="submit"
-                  className="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600"
+                  className="bg-orange-500 text-white font-bold px-4 py-2 rounded hover:bg-orange-600"
                 >
                   Submit Reply
                 </button>

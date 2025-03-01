@@ -150,7 +150,7 @@ const ManageVehicleListings = () => {
       <form onSubmit={handleSubmit} className="mb-6 bg-gray-100 p-4 rounded shadow">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="block text-gray-700">Brand:</label>
+            <label className="block font-bold text-gray-700">Brand:</label>
             <input
               type="text"
               name="make"
@@ -161,7 +161,7 @@ const ManageVehicleListings = () => {
             />
           </div>
           <div>
-            <label className="block text-gray-700">Model:</label>
+            <label className="block font-bold text-gray-700">Model:</label>
             <input
               type="text"
               name="model"
@@ -172,7 +172,7 @@ const ManageVehicleListings = () => {
             />
           </div>
           <div>
-            <label className="block text-gray-700">Year:</label>
+            <label className="block font-bold text-gray-700">Year:</label>
             <input
               type="number"
               name="year"
@@ -183,7 +183,7 @@ const ManageVehicleListings = () => {
             />
           </div>
           <div>
-            <label className="block text-gray-700">Price Per Day:</label>
+            <label className="block font-bold text-gray-700">Price Per Day:</label>
             <input
               type="number"
               name="pricePerDay"
@@ -194,7 +194,7 @@ const ManageVehicleListings = () => {
             />
           </div>
           <div>
-            <label className="block text-gray-700">Availability:</label>
+            <label className="block font-bold text-gray-700">Availability:</label>
             <select
               name="availability"
               value={formData.availability}
@@ -206,7 +206,7 @@ const ManageVehicleListings = () => {
             </select>
           </div>
           <div>
-            <label className="block text-gray-700">Location:</label>
+            <label className="block font-bold text-gray-700">Location:</label>
             <input
               type="text"
               name="location"
@@ -217,7 +217,7 @@ const ManageVehicleListings = () => {
             />
           </div>
           <div>
-            <label className="block text-gray-700">Fuel Type:</label>
+            <label className="block font-bold text-gray-700">Fuel Type:</label>
             <input
               type="text"
               name="fuelType"
@@ -227,7 +227,7 @@ const ManageVehicleListings = () => {
             />
           </div>
           <div>
-            <label className="block text-gray-700">Images:</label>
+            <label className="block font-bold text-gray-700">Images:</label>
             <input
               type="file"
               name="images"
@@ -239,7 +239,7 @@ const ManageVehicleListings = () => {
         </div>
         <button
           type="submit"
-          className="bg-orange-500 text-white px-4 py-2 mt-4 rounded hover:bg-orange-600"
+          className="bg-orange-500 font-bold text-white px-4 py-2 mt-4 rounded hover:bg-orange-600"
         >
           {editingId ? 'Update Vehicle' : 'Add Vehicle'}
         </button>
@@ -247,7 +247,7 @@ const ManageVehicleListings = () => {
           <button
             type="button"
             onClick={resetForm}
-            className="bg-red-500 text-white px-4 py-2 ml-4 rounded hover:bg-red-700"
+            className="bg-red-500 text-white px-4 font-bold py-2 ml-4 rounded hover:bg-red-700"
           >
             Cancel
           </button>
@@ -277,13 +277,13 @@ const ManageVehicleListings = () => {
               <td className="p-2">
                 <button
                   onClick={() => handleEdit(vehicle)}
-                  className="bg-yellow-500 text-white px-2 py-1 rounded hover:bg-yellow-600 mr-2"
+                  className="bg-yellow-500 text-white px-3 py-1 font-bold rounded hover:bg-yellow-600 mr-2"
                 >
                   Edit
                 </button>
                 <button
                   onClick={() => handleDelete(vehicle._id)}
-                  className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
+                  className="bg-red-500 text-white px-3 py-1 font-bold rounded hover:bg-red-600"
                 >
                   Delete
                 </button>
