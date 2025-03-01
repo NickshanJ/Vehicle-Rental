@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
-import CreateBookingForm from '../components/CreateBookingForm'; 
 import axios from 'axios';
 
 const AdminDashboard = () => {
