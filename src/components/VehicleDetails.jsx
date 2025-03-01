@@ -82,7 +82,7 @@ const VehicleDetails = () => {
           <p className="text-gray-700 mb-2">Fuel Type: {vehicle.fuelType}</p>
           <p className="text-gray-700 mb-2">Location: {vehicle.location}</p>
           <p className="text-gray-700 mb-2">Availability: {vehicle.availability ? 'Available' : 'Not Available'}</p>
-          <div className="flex space-x-4">
+          <div className="flex mt-8 space-x-4">
             <button
               className="bg-orange-500 text-white font-bold px-4 py-2 rounded hover:bg-orange-600"
               onClick={handleBookNow}
