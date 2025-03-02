@@ -1,5 +1,5 @@
 [build]
-  publish = "build" # or "public" depending on your build directory
+  publish = "dist" # Ensure this matches the directory created by the build command
   command = "npm run build"
 
 [[redirects]]
