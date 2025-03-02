@@ -72,7 +72,7 @@ const BookingPage = () => {
     try {
       const token = localStorage.getItem('token');
       const response = await axios.post(
-        'https://vehicle-rental-server.onrender.com/api/payment/create-checkout-session',
+        'https://vehicle-rental-server.onrender.com/api/payments/create-checkout-session',
         {
           vehicle: id,
           startDate,
