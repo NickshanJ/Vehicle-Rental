@@ -17,7 +17,6 @@ const Profile = () => {
     const fetchProfile = async () => {
       try {
         const token = localStorage.getItem('token');
-        console.log('Retrieved token:', token); // Log token for debugging
         if (!token) {
           throw new Error('No token found');
         }
@@ -27,7 +26,6 @@ const Profile = () => {
             Authorization: `Bearer ${token}`
           }
         });
-        console.log('Profile data fetched:', response.data);
 
         if (response.data) {
           setProfile(response.data.profile);
@@ -37,11 +35,8 @@ const Profile = () => {
           if (response.data.profile.imageUrl) {
             setImageUrl(`https://vehicle-rental-server.onrender.com/${response.data.profile.imageUrl}`);
           }
-        } else {
-          console.error('Invalid response format:', response);
         }
       } catch (error) {
-        console.error('Error fetching profile:', error);
         setMessage('Failed to fetch profile');
       }
     };
@@ -75,7 +70,6 @@ const Profile = () => {
       }
     } catch (error) {
       setMessage('Profile update failed');
-      console.error('Error updating profile:', error);
     }
   };
 
