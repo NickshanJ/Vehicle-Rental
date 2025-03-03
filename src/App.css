@@ -2,8 +2,39 @@ footer {
   position: absolute;
   bottom: 0;
   width: 100%;
-  background: #fff; /* Background color for the footer */
-  padding: 1rem; /* Padding for the footer */
+  background: #fff; 
+  padding: 1rem; 
   text-align: center;
-  box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1); /* Optional shadow for the footer */
+  box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-30px);
+  }
+  60% {
+    transform: translateY(-15px);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.animate-bounce {
+  animation: bounce 1.5s infinite;
 }
