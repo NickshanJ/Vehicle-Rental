@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import ReviewModal from './ReviewModal';
 
 const ReviewPage = () => {
   const { id } = useParams();
@@ -8,7 +9,7 @@ const ReviewPage = () => {
   const [review, setReview] = useState('');
   const [rating, setRating] = useState(1); // Default rating to 1
   const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
+  const [success, setSuccess] = useState(false); // Updated to boolean
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -37,13 +38,17 @@ const ReviewPage = () => {
           }
         }
       );
-      setSuccess('Review submitted successfully!');
+      setSuccess(true); // Set success to true
       setReview('');
       setRating(1); // Reset rating to default
     } catch (error) {
       setError('Error submitting review');
       console.error('Error submitting review:', error);
     }
+  };
+
+  const closeModal = () => {
+    setSuccess(false);
   };
 
   if (error) {
@@ -68,7 +73,6 @@ const ReviewPage = () => {
         </div>
         {/* Right Side: Review Form */}
         <div className="lg:ml-6 lg:w-1/2">
-          {success && <p className="text-green-500 mb-4">{success}</p>}
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
               <label htmlFor="rating" className="block text-gray-700 mb-2">Rating:</label>
@@ -109,6 +113,11 @@ const ReviewPage = () => {
           </button>
         </div>
       </div>
+      <ReviewModal
+        isOpen={success}
+        onClose={closeModal}
+        message="Review submitted successfully!"
+      />
     </div>
   );
 };
