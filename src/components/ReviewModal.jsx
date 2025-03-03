@@ -6,7 +6,7 @@ const ReviewModal = ({ isOpen, onClose, message }) => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
       {/* Blurred Background */}
-      <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm"></div>
+      <div className="fixed inset-0 bg-gray-600 bg-opacity-50 backdrop-blur-sm"></div>
 
       {/* Modal Content */}
       <div className="relative bg-white p-8 rounded-lg shadow-lg w-11/12 md:w-1/3">
