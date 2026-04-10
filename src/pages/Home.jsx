@@ -1,64 +1,44 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; 
+import React, { useState, useEffect, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import SearchForm from '../components/SearchForm';
+import { AuthContext } from '../context/AuthContext';
 
 const Home = () => {
-  const [vehicles, setVehicles] = useState([]); 
-  const [randomBikes, setRandomBikes] = useState([]); 
-  const [randomCars, setRandomCars] = useState([]); 
-  const navigate = useNavigate(); 
+  const [vehicles, setVehicles] = useState([]);
+  const [randomBikes, setRandomBikes] = useState([]);
+  const [randomCars, setRandomCars] = useState([]);
+  const navigate = useNavigate();
+  const { auth } = useContext(AuthContext);
 
-  // Fetch and randomize bikes
   useEffect(() => {
-    const fetchBikes = async () => {
+    const fetchVehicles = async () => { 
       try {
-        const response = await fetch('https://vehicle-rental-server.onrender.com/api/vehicles'); // API call to fetch all vehicles
+        const response = await fetch('https://vehicle-rental-server.onrender.com/api/vehicles');
         const data = await response.json();
 
-        // Filter only bikes
         const bikes = data.filter(
-          (vehicle) =>
-            vehicle.vehicleType === 'Bike' || vehicle.vehicleType === 'Scooter'
+          (v) => v.vehicleType === 'Bike' || v.vehicleType === 'Scooter'
         );
-
-        // Select 4 random bikes
-        const randomSelectedBikes = bikes.sort(() => 0.5 - Math.random()).slice(0, 4);
-        setRandomBikes(randomSelectedBikes);
-      } catch (error) {
-        console.error('Error fetching bikes:', error);
-      }
-    };
-
-    fetchBikes();
-  }, []); 
-
-  // Fetch and randomize cars
-  useEffect(() => {
-    const fetchCars = async () => {
-      try {
-        const response = await fetch('https://vehicle-rental-server.onrender.com/api/vehicles'); 
-        const data = await response.json();
-
-        // Filter only cars
         const cars = data.filter(
-          (vehicle) =>
-            vehicle.vehicleType === 'Manual' || vehicle.vehicleType === 'Automatic'
+          (v) => v.vehicleType === 'Manual' || v.vehicleType === 'Automatic'
         );
 
-        // Select 4 random cars
-        const randomSelectedCars = cars.sort(() => 0.5 - Math.random()).slice(0, 4);
-        setRandomCars(randomSelectedCars);
+        setRandomBikes(bikes.sort(() => 0.5 - Math.random()).slice(0, 4));
+        setRandomCars(cars.sort(() => 0.5 - Math.random()).slice(0, 4));
       } catch (error) {
-        console.error('Error fetching cars:', error);
+        console.error('Error fetching vehicles:', error);
       }
     };
 
-    fetchCars();
-  }, []); 
+    fetchVehicles();
+  }, []);
 
-  // Navigate to VehicleDetails page
   const handleCardClick = (id) => {
-    navigate(`/vehicles/${id}`); 
+    if (!auth.isAuthenticated) {
+      navigate('/login');
+      return;
+    }
+    navigate(`/vehicles/${id}`);
   };
 
   return (
@@ -67,10 +47,8 @@ const Home = () => {
         Welcome to Our Vehicle Rental Service
       </h1>
 
-      {/* Search Form */}
       <SearchForm setVehicles={setVehicles} vehicles={vehicles} />
 
-      {/* Bikes Section */}
       <div className="mt-12">
         <h2 className="text-3xl font-bold mb-6">Bikes</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -81,7 +59,7 @@ const Home = () => {
               onClick={() => handleCardClick(bike._id)}
             >
               <img
-                src={bike.images[0]} 
+                src={bike.images[0]}
                 alt={bike.model}
                 className="w-full h-48 object-cover"
               />
@@ -95,7 +73,6 @@ const Home = () => {
         </div>
       </div>
 
-      {/* Cars Section */}
       <div className="mt-12">
         <h2 className="text-3xl font-bold mb-6">Cars</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -103,10 +80,10 @@ const Home = () => {
             <div
               key={car._id}
               className="bg-white shadow-md hover:shadow-xl rounded-lg overflow-hidden cursor-pointer"
-              onClick={() => handleCardClick(car._id)} 
+              onClick={() => handleCardClick(car._id)}
             >
               <img
-                src={car.images[0]} 
+                src={car.images[0]}
                 alt={car.model}
                 className="w-full h-48 object-cover"
               />

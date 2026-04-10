@@ -16,15 +16,9 @@ const Login = () => {
     try {
       const response = await axios.post('https://vehicle-rental-server.onrender.com/api/auth/login', { username, password });
 
-      // Debugging: Log the entire response object
-      console.log("Server Response:", response);
-
       const user = response.data.user;
 
-      // Debugging: Log the user object to ensure it contains isAdmin
-      console.log("User Object at Login:", user);
-
-      if (user && user.isAdmin !== undefined) {
+      if (user) {
         localStorage.setItem('token', response.data.token);
         localStorage.setItem('user', JSON.stringify(user));
 
@@ -33,10 +27,9 @@ const Login = () => {
 
         navigate('/');
       } else {
-        console.error('User object does not contain isAdmin flag');
+        setMessage('Login failed: Invalid response from server.');
       }
     } catch (error) {
-      console.log('Error Response:', error.response); // Log the entire error response
       setMessage(error.response ? error.response.data.message : 'Login failed');
     }
   };

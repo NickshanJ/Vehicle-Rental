@@ -9,7 +9,7 @@ const PaymentHistory = () => {
     const fetchPayments = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await axios.get('/api/payments', {
+        const response = await axios.get('https://vehicle-rental-server.onrender.com/api/payments', {
           headers: { Authorization: `Bearer ${token}` },
         });
         setPayments(response.data);
@@ -23,10 +23,10 @@ const PaymentHistory = () => {
 
   const generateInvoice = async (transactionId) => {
     try {
-      const response = await axios.get(`/api/payments/invoice/${transactionId}`, {
-        responseType: 'blob', 
+      const response = await axios.get(`https://vehicle-rental-server.onrender.com/api/payments/invoice/${transactionId}`, {
+        responseType: 'blob',
       });
-  
+
       const url = window.URL.createObjectURL(new Blob([response.data]));
       const link = document.createElement('a');
       link.href = url;
@@ -53,6 +53,7 @@ const PaymentHistory = () => {
               <th className="border border-gray-200 px-4 py-2">Amount</th>
               <th className="border border-gray-200 px-4 py-2">Transaction ID</th>
               <th className="border border-gray-200 px-4 py-2">Status</th>
+              <th className="border border-gray-200 px-4 py-2">Invoice</th>
             </tr>
           </thead>
           <tbody>
@@ -64,20 +65,19 @@ const PaymentHistory = () => {
                 <td className="border border-gray-200 px-4 py-2">₹{payment.amount}</td>
                 <td className="border border-gray-200 px-4 py-2">{payment.transactionId}</td>
                 <td className="border border-gray-200 px-4 py-2">{payment.status}</td>
+                <td className="border border-gray-200 px-4 py-2">
+                  <button
+                    onClick={() => generateInvoice(payment.transactionId)}
+                    className="bg-blue-500 text-white px-4 py-2 rounded"
+                  >
+                    Download Invoice
+                  </button>
+                </td>
               </tr>
             ))}
           </tbody>
         </table>
       )}
-      <td className="border border-gray-200 px-4 py-2">
-  <button
-    onClick={() => generateInvoice(payment.transactionId)}
-    className="bg-blue-500 text-white px-4 py-2 rounded"
-  >
-    Download Invoice
-  </button>
-</td>
-
     </div>
   );
 };

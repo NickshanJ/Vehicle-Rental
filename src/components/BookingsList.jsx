@@ -42,7 +42,8 @@ const BookingsList = () => {
       <ul>
         {bookings.map(booking => (
           <li key={booking._id}>
-            Vehicle: {booking.vehicle.name}, Start Date: {booking.startDate}, End Date: {booking.endDate}, Status: {booking.status}
+            Vehicle: {booking.vehicle?.model || 'N/A'},
+            Start Date: {booking.startDate}, End Date: {booking.endDate}, Status: {booking.status}
             <button onClick={() => handleDelete(booking._id)}>Delete</button>
           </li>
         ))}
