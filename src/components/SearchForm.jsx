@@ -10,76 +10,60 @@ const SearchForm = () => {
 
   const handleSearch = async () => {
     try {
-      const response = await axios.get('https://vehicle-rental-server.onrender.com/api/vehicles', {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`
-        }
-      });
-
+      const response = await axios.get('https://vehicle-rental-server.onrender.com/api/vehicles');
       const filteredVehicles = response.data.filter(vehicle => {
-        let matchesVehicleType = vehicleType ? vehicle.vehicleType === vehicleType : true;
-        let matchesLocation = location ? vehicle.location === location : true;
-        let matchesPriceRange = true;
-
-        if (priceRange === 'low') {
-          matchesPriceRange = vehicle.pricePerDay > 300;
-        } else if (priceRange === 'medium') {
-          matchesPriceRange = vehicle.pricePerDay >= 1000 && vehicle.pricePerDay <= 2000;
-        } else if (priceRange === 'high') {
-          matchesPriceRange = vehicle.pricePerDay > 2000;
-        }
-
-        return matchesVehicleType && matchesLocation && matchesPriceRange;
+        const matchesType = vehicleType ? vehicle.vehicleType === vehicleType : true;
+        const matchesLocation = location ? vehicle.location === location : true;
+        let matchesPrice = true;
+        if (priceRange === 'low') matchesPrice = vehicle.pricePerDay <= 500;
+        else if (priceRange === 'medium') matchesPrice = vehicle.pricePerDay > 500 && vehicle.pricePerDay <= 1500;
+        else if (priceRange === 'high') matchesPrice = vehicle.pricePerDay > 1500;
+        return matchesType && matchesLocation && matchesPrice;
       });
-
       navigate('/search-results', { state: { vehicles: filteredVehicles } });
     } catch (error) {
       console.error('Error fetching vehicles:', error);
     }
   };
 
+  const selectClass = "flex-1 bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm font-medium text-gray-700 focus:outline-none focus:ring-2 focus:ring-orange-300 appearance-none cursor-pointer";
+
   return (
-      <div className="bg-white p-6 rounded-[100px] shadow-md grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-16 mb-40">
-        <select
-          className="p-3 border rounded-[100px] bg-gray-50 focus:outline-none focus:ring focus:ring-orange-500"
-          value={vehicleType}
-          onChange={(e) => setVehicleType(e.target.value)}
-        >
-          <option className='font-bold' value="">All Types</option>
-          <option className='font-bold' value="Scooter">Scooter</option>
-          <option className='font-bold' value="Bike">Bike</option>
-          <option className='font-bold' value="Manual">Manual</option>
-          <option className='font-bold' value="Automatic">Automatic</option>
+    <div className="bg-white rounded-2xl shadow-md border border-gray-100 p-5 mt-8 mb-12">
+      <p className="text-xs font-bold uppercase tracking-widest text-orange-500 mb-3">Find Your Vehicle</p>
+      <div className="flex flex-col sm:flex-row gap-3">
+        <select className={selectClass} value={vehicleType} onChange={(e) => setVehicleType(e.target.value)}>
+          <option value="">🚗 All Types</option>
+          <option value="Scooter">🛵 Scooter</option>
+          <option value="Bike">🏍️ Bike</option>
+          <option value="Manual">🚙 Manual Car</option>
+          <option value="Automatic">🚘 Automatic Car</option>
         </select>
-        <select
-          className="p-3 border rounded-[100px] bg-gray-50 focus:outline-none focus:ring focus:ring-orange-500"
-          value={location}
-          onChange={(e) => setLocation(e.target.value)}
-        >
-          <option className='font-bold' value="">All Locations</option>
-          <option className='font-bold' value="Velachery">Velachery</option>
-          <option className='font-bold' value="Guindy">Guindy</option>
-          <option className='font-bold' value="OMR">OMR</option>
-          <option className='font-bold' value="Medavakkam">Medavakkam</option>
-          <option className='font-bold' value="Tambaram">Tambaram</option>
+
+        <select className={selectClass} value={location} onChange={(e) => setLocation(e.target.value)}>
+          <option value="">📍 All Locations</option>
+          <option value="Velachery">Velachery</option>
+          <option value="Guindy">Guindy</option>
+          <option value="OMR">OMR</option>
+          <option value="Medavakkam">Medavakkam</option>
+          <option value="Tambaram">Tambaram</option>
         </select>
-        <select
-          className="p-3 border rounded-[100px] bg-gray-50 focus:outline-none focus:ring focus:ring-orange-500"
-          value={priceRange}
-          onChange={(e) => setPriceRange(e.target.value)}
-        >
-          <option className='font-bold' value="">All Price Ranges</option>
-          <option className='font-bold' value="low">Low</option>
-          <option className='font-bold' value="medium">Medium</option>
-          <option className='font-bold' value="high">High</option>
+
+        <select className={selectClass} value={priceRange} onChange={(e) => setPriceRange(e.target.value)}>
+          <option value="">💰 All Prices</option>
+          <option value="low">Under ₹500/day</option>
+          <option value="medium">₹500–₹1500/day</option>
+          <option value="high">Above ₹1500/day</option>
         </select>
+
         <button
-          className="bg-orange-600 text-white font-bold px-6 py-3 rounded-[100px] hover:bg-orange-700 transition duration-200 focus:ring focus:ring-orange-500"
+          className="bg-orange-500 text-white font-bold px-8 py-3 rounded-xl hover:bg-orange-600 transition whitespace-nowrap"
           onClick={handleSearch}
         >
           Search
         </button>
       </div>
+    </div>
   );
 };
 

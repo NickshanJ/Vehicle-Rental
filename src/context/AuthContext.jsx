@@ -16,22 +16,23 @@ const AuthProvider = ({ children }) => {
     if (userString && userString !== 'undefined') {
       try {
         user = JSON.parse(userString);
-        console.log("Parsed User at AuthContext:", user); 
       } catch (error) {
         console.error('Error parsing user data from localStorage:', error);
       }
     }
 
     if (token && user) {
-      setAuth({
-        isAuthenticated: true,
-        user: user
-      });
+      setAuth({ isAuthenticated: true, user });
     }
   }, []);
 
+  const updateAuthUser = (updatedUser) => {
+    localStorage.setItem('user', JSON.stringify(updatedUser));
+    setAuth(prev => ({ ...prev, user: updatedUser }));
+  };
+
   return (
-    <AuthContext.Provider value={{ auth, setAuth }}>
+    <AuthContext.Provider value={{ auth, setAuth, updateAuthUser }}>
       {children}
     </AuthContext.Provider>
   );

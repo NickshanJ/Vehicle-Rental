@@ -1,199 +1,188 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faUpload } from '@fortawesome/free-solid-svg-icons';
-import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../context/AuthContext.jsx';
+
+const BASE_URL = window.location.hostname === 'localhost'
+  ? 'http://localhost:5000'
+  : 'https://vehicle-rental-server.onrender.com';
 
 const Profile = () => {
+  const { auth } = useContext(AuthContext);
+
   const [profile, setProfile] = useState(null);
   const [bookings, setBookings] = useState([]);
   const [reviews, setReviews] = useState([]);
-  const [message, setMessage] = useState('');
+  const [editMode, setEditMode] = useState(false);
+  const [formData, setFormData] = useState({ username: '', email: '', password: '' });
   const [image, setImage] = useState(null);
-  const [imageUrl, setImageUrl] = useState('');
-  const navigate = useNavigate();
+  const [previewUrl, setPreviewUrl] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [saveMsg, setSaveMsg] = useState('');
+
+  const token = localStorage.getItem('token');
 
   useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        const token = localStorage.getItem('token');
-        if (!token) {
-          throw new Error('No token found');
-        }
-
-        const response = await axios.get('https://vehicle-rental-server.onrender.com/api/auth/profile', {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        });
-
-        if (response.data) {
-          setProfile(response.data.profile);
-          setBookings(response.data.profile.bookings); 
-          setReviews(response.data.profile.reviews);
-
-          if (response.data.profile.imageUrl) {
-            setImageUrl(`https://vehicle-rental-server.onrender.com/${response.data.profile.imageUrl}`);
-          }
-        }
-      } catch (error) {
-        setMessage('Failed to fetch profile');
-      }
-    };
-
-    fetchProfile();
+    fetchAll();
   }, []);
 
-  const handleUpdate = async (e) => {
-    e.preventDefault();
-    try {
-      const formData = new FormData();
-      formData.append('username', profile.username);
-      formData.append('email', profile.email);
-      if (image) {
-        formData.append('image', image);
-      }
+  const fetchAll = async () => {
+    setLoading(true);
+    setError(null);
 
-      const token = localStorage.getItem('token');
-      const response = await axios.put('https://vehicle-rental-server.onrender.com/api/auth/profile', formData, {
+    try {
+      // ✅ FIXED (use working endpoint)
+      const res = await axios.get(`${BASE_URL}/api/auth/profile`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+
+      const p = res.data.profile; // ✅ IMPORTANT
+      setProfile(p);
+
+      setFormData({
+        username: p.username,
+        email: p.email,
+        password: ''
+      });
+
+      setReviews(p.reviews || []);
+
+    } catch (err) {
+      console.error(err);
+      setError('Failed to load profile');
+    }
+
+    try {
+      const bookingRes = await axios.get(`${BASE_URL}/api/bookings/my-bookings`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      setBookings(bookingRes.data || []);
+    } catch (err) {
+      console.error(err);
+    }
+
+    setLoading(false);
+  };
+
+  const handleChange = (e) =>
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setImage(file);
+      setPreviewUrl(URL.createObjectURL(file));
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setSaveMsg('');
+
+    try {
+      const fd = new FormData();
+      fd.append('username', formData.username);
+      fd.append('email', formData.email);
+      if (formData.password) fd.append('password', formData.password);
+      if (image) fd.append('image', image);
+
+      const res = await axios.put(`${BASE_URL}/api/users/profile`, fd, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'multipart/form-data'
         }
       });
 
-      setProfile(response.data);
-      setMessage('Profile updated successfully');
+      const updated = res.data.user || res.data;
 
-      if (response.data.imageUrl) {
-        setImageUrl(`https://vehicle-rental-server.onrender.com/${response.data.imageUrl}`);
-      }
-    } catch (error) {
-      setMessage('Profile update failed');
+      setProfile(prev => ({ ...prev, ...updated }));
+
+      setSaveMsg('Profile updated successfully');
+      setEditMode(false);
+      setImage(null);
+      setPreviewUrl(null);
+
+    } catch (err) {
+      console.error(err);
+      setSaveMsg('Update failed');
     }
   };
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    setImage(file);
-    setImageUrl(URL.createObjectURL(file));
-  };
+  const profileImageUrl =
+    previewUrl ||
+    (profile?.imageUrl || profile?.profileImage
+      ? `${BASE_URL}/${profile.imageUrl || profile.profileImage}`
+      : null);
 
-  const handleBack = () => {
-    navigate(-1); 
-  };
-
-  if (!profile) {
-    return <div className="flex items-center justify-center h-screen text-center text-orange-500 font-bold animate-bounce">Loading...</div>;
-  }
+  if (loading) return <p className="text-center mt-10">Loading...</p>;
+  if (error) return <p className="text-center text-red-500">{error}</p>;
 
   return (
-    <div className="container mx-auto p-4 relative">
-      {/* Back Button */}
-      <button
-        className="absolute top-4 right-4 bg-orange-500 text-white font-bold px-4 py-2 rounded hover:bg-orange-600"
-        onClick={handleBack}
-      >
-        Back
-      </button>
+    <div className="max-w-5xl mx-auto p-6">
 
-      <div className="bg-white shadow-lg rounded-lg p-6">
-        <h2 className="text-2xl font-bold mb-4">Profile</h2>
-        <div className="flex items-start space-x-6">
-          <div className="flex-shrink-0">
-            <div className="relative">
-              <div className="h-48 w-48 bg-gray-200 rounded-full flex items-center justify-center overflow-hidden">
-                {imageUrl ? (
-                  <img src={imageUrl} alt="Profile" className="h-full w-full object-cover" />
-                ) : (
-                  <FontAwesomeIcon icon={faUser} className="text-gray-500 text-5xl" />
-                )}
+      <h1 className="text-2xl font-bold mb-6">Profile</h1>
+
+      {/* PROFILE CARD */}
+      <div className="bg-white p-6 rounded-xl shadow mb-6">
+
+        <div className="flex gap-6 items-center">
+
+          <div>
+            {profileImageUrl ? (
+              <img src={profileImageUrl} className="w-24 h-24 rounded-full object-cover" />
+            ) : (
+              <div className="w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center">
+                {profile.username?.[0]}
               </div>
-              <label className="absolute bottom-0 right-0 bg-orange-500 p-2 rounded-full cursor-pointer">
-                <FontAwesomeIcon icon={faUpload} className="text-white" />
-                <input type="file" accept="image/*" onChange={handleImageChange} className="opacity-0 absolute inset-0 cursor-pointer" />
-              </label>
-            </div>
+            )}
           </div>
-          <div className="flex-grow">
-            <form onSubmit={handleUpdate} className="space-y-4">
-              <div>
-                <label className="block text-gray-700">Username:</label>
-                <input
-                  type="text"
-                  value={profile.username}
-                  onChange={(e) => setProfile({ ...profile, username: e.target.value })}
-                  className="w-full p-2 border border-gray-300 rounded mt-1"
-                  required
-                />
-              </div>
-              <div>
-                <label className="block text-gray-700">Email:</label>
-                <input
-                  type="email"
-                  value={profile.email}
-                  onChange={(e) => setProfile({ ...profile, email: e.target.value })}
-                  className="w-full p-2 border border-gray-300 rounded mt-1"
-                  required
-                />
-              </div>
-              <div className="text-right">
-                <button type="submit" className="bg-orange-500 text-white font-bold px-4 py-2 rounded hover:bg-orange-600">Update Profile</button>
-              </div>
-            </form>
-            {message && <p className="mt-4 text-green-600">{message}</p>}
+
+          <div className="flex-1">
+
+            {editMode ? (
+              <form onSubmit={handleSubmit} className="space-y-3">
+                <input name="username" value={formData.username} onChange={handleChange} className="border p-2 w-full" />
+                <input name="email" value={formData.email} onChange={handleChange} className="border p-2 w-full" />
+                <input name="password" value={formData.password} onChange={handleChange} placeholder="New password" className="border p-2 w-full" />
+
+                <input type="file" onChange={handleImageChange} />
+
+                <button className="bg-orange-500 text-white px-4 py-2 rounded">Save</button>
+              </form>
+            ) : (
+              <>
+                <h2 className="text-xl font-bold">{profile.username}</h2>
+                <p>{profile.email}</p>
+
+                <button onClick={() => setEditMode(true)} className="mt-2 text-orange-500">
+                  Edit Profile
+                </button>
+              </>
+            )}
+
+            {saveMsg && <p className="mt-2">{saveMsg}</p>}
           </div>
         </div>
       </div>
 
-      {/* Current and Past Bookings and Reviews in Columns */}
-      <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-8">
-        {/* Column 1: Current and Past Bookings */}
-        <div className="bg-white shadow-lg rounded-lg p-6">
-          <h3 className="text-xl font-bold mb-4">Current and Past Bookings</h3>
-          <ul className="list-disc pl-5">
-            {bookings.map((booking) => (
-              <li key={booking._id} className="mb-2">
-                <p className="text-gray-700">
-                  Vehicle Model: <span className="font-medium">{booking.vehicle?.model || 'N/A'}</span>
-                </p>
-                <p className="text-gray-700">
-                  Start Date: <span className="font-medium">{new Date(booking.startDate).toLocaleDateString()}</span>
-                </p>
-                <p className="text-gray-700">
-                  End Date: <span className="font-medium">{new Date(booking.endDate).toLocaleDateString()}</span>
-                </p>
-                <p className="text-gray-700">
-                  Total Amount: <span className="font-medium">{booking.totalAmount}</span>
-                </p>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* Column 2: Reviews */}
-        <div className="bg-white shadow-lg rounded-lg p-6">
-          <h3 className="text-xl font-bold mb-4">Reviews</h3>
-          <ul className="list-disc pl-5">
-            {reviews.map((review) => (
-              <li key={review._id} className="mb-2">
-                <p className="text-gray-700">
-                  Vehicle Model: <span className="font-medium">{review.vehicle?.model || 'N/A'}</span>
-                </p>
-                <p className="text-gray-700">
-                  Rating: <span className="font-medium">{review.rating}</span>
-                </p>
-                <p className="text-gray-700">
-                  Comment: <span className="font-medium">{review.comment}</span>
-                </p>
-                <p className="text-gray-700">
-                  Date: <span className="font-medium">{new Date(review.createdAt).toLocaleDateString()}</span>
-                </p>
-              </li>
-            ))}
-          </ul>
-        </div>
+      {/* BOOKINGS */}
+      <div className="bg-white p-6 rounded-xl shadow mb-6">
+        <h3 className="font-bold mb-3">Bookings</h3>
+        {bookings.map(b => (
+          <div key={b._id} className="mb-2">
+            {b.vehicle?.model} - ₹{b.totalAmount}
+          </div>
+        ))}
       </div>
+
+      {/* REVIEWS */}
+      <div className="bg-white p-6 rounded-xl shadow">
+        <h3 className="font-bold mb-3">Reviews</h3>
+        {reviews.map(r => (
+          <div key={r._id}>{r.comment}</div>
+        ))}
+      </div>
+
     </div>
   );
 };
