@@ -3,7 +3,9 @@ import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { AuthContext } from '../context/AuthContext.jsx';
 
-const BASE_URL = 'https://vehicle-rental-server.onrender.com';
+const BASE_URL = window.location.hostname === 'localhost'
+    ? 'http://localhost:5000'
+    : 'https://vehicle-rental-server.onrender.com';
 
 const BookingForm = () => {
   const { id } = useParams();
